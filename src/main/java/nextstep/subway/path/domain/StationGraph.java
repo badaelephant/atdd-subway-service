@@ -33,8 +33,12 @@ public class StationGraph{
         GraphPath graphPath = pathStrategy.getGraphPath(source, target);
         validateConnected(graphPath);
         List<Station> shortestPath = Collections.unmodifiableList(graphPath.getVertexList());
-        Double distance = pathStrategy.getGraphPath(source, target).getWeight();
-        return Path.of(shortestPath, distance.intValue());
+        List<Section> sections = graphPath.getEdgeList();
+        int maxInt = sections.stream().mapToInt(section -> section.getLine().getAddPrice()).max().orElseThrow(
+                ()-> new RuntimeException("NotAbleTofindMaxNum")
+        );
+        Double distance = graphPath.getWeight();
+        return Path.of(shortestPath, distance.intValue(), maxInt);
     }
 
     private void validateContains(Station source, Station target) {

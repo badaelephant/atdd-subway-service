@@ -1,7 +1,11 @@
 package nextstep.subway.member.domain;
 
+import javax.persistence.Embedded;
 import nextstep.subway.BaseEntity;
+import nextstep.subway.ErrorMessage;
 import nextstep.subway.auth.application.AuthorizationException;
+import nextstep.subway.favorite.domain.Favorite;
+import nextstep.subway.favorite.domain.Favorites;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Entity;
@@ -18,6 +22,9 @@ public class Member extends BaseEntity {
     private String password;
     private Integer age;
 
+    @Embedded
+    private Favorites favorites;
+
     public Member() {
     }
 
@@ -25,6 +32,7 @@ public class Member extends BaseEntity {
         this.email = email;
         this.password = password;
         this.age = age;
+        this.favorites = new Favorites();
     }
 
     public Long getId() {
@@ -51,7 +59,24 @@ public class Member extends BaseEntity {
 
     public void checkPassword(String password) {
         if (!StringUtils.equals(this.password, password)) {
-            throw new AuthorizationException();
+            throw new AuthorizationException(ErrorMessage.PASSWORD_NOT_MATCH);
+        }
+    }
+
+    public void removeFavorite(Favorite favorite) {
+        favorites.remove(favorite);
+    }
+
+    public Favorites getFavorites() {
+        return favorites;
+    }
+
+    public Double getDiscountRate() {
+        if (this.age>=13 && this.age<19){
+            return 0.2;
+        }
+        if(this.age>=6 && this.age<13){
+            return 0.5;
         }
     }
 }

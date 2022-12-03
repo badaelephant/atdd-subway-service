@@ -24,7 +24,8 @@ public class ErrorMessage {
 
     public static final String FIND_PATH_SAME_STATION = "경로조회 시작역과 종료역이 같으면 경로를 구할 수 없습니다.";
 
-    public static final String DUPLICATED_EDGE_ON_GRAPH = "경로에 이미 해당구간이 존재합니다.";
+    public static final String PASSWORD_NOT_MATCH = "비밀번호가 일치하지 않습니다." ;
+    public static final String INVALID_TOKEN = "유효하지 않은 인증토큰입니다.";
 
     public static String notValidDistance(int minimumDistance) {
         return String.format("거리는 %d보다 커야 합니다.", minimumDistance);
